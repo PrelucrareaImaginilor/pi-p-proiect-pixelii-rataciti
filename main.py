@@ -66,12 +66,12 @@ for item in images:
     results = model(img)
 
 
-    # 1a. corectie clasificari gresite
+    #  corectie clasificari gresite
 
-    for box in results[0].boxes:
-        label = model.names[int(box.cls[0])]
-        if label in ["cellphone", "book", "laptop"]:
-            box.cls[0] = model.names.index("car")  # fortam sa fie car
+    #for box in results[0].boxes:
+        #label = model.names[int(box.cls[0])]
+        #if label in ["cellphone", "book", "laptop"]:
+            #box.cls[0] = model.names.index("car") 
 
     cars_img = results[0].plot()
 
@@ -82,9 +82,9 @@ for item in images:
     cv2.imshow(f"Masini detectate - {img_name}", cars_img)
     cv2.waitKey(0)
 
-    # =====================================================
-    # 2️⃣ PARKING MANAGEMENT (IMAGINEA 2)
-    # =====================================================
+    
+    #PARKING MANAGEMENT
+    
     parking_manager = solutions.ParkingManagement(
         model="yolo11m.pt",
         json_file=json_file,
@@ -101,7 +101,7 @@ for item in images:
     parking_img[green_pixels] = [0, 0, 255]
 
 
-    # 3️⃣ DETECTARE MASINI PARCATE INCORECT
+    #  DETECTARE MASINI PARCATE INCORECT
 
     # incarcare locuri parcare
     with open(json_file, "r") as f:
@@ -133,7 +133,7 @@ for item in images:
                 in_any_spot = True
                 break
 
-        # masina in afara tuturor locurilor
+        # masini parcate incorect 
         if not in_any_spot:
             incorrect_count += 1
 
@@ -155,7 +155,7 @@ for item in images:
                 2
             )
 
-    # counter sus pe imagine
+    # afisare pe imagine
     if incorrect_count > 0:
         cv2.rectangle(parking_img, (10, 10), (520, 55), (0, 0, 0), -1)
         cv2.putText(
@@ -180,3 +180,4 @@ for item in images:
     cv2.destroyAllWindows()
 
 print("\nProcesare completa, toate imaginile au fost procesate")
+
